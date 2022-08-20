@@ -30,16 +30,25 @@ function workHour () {
 }
 
 day=1
+declare -A dailyWages
 while [ $day -le 20 -a $totalHour -le $MONTHLY_HOUR_LIMIT ]
 do
 	tempWorkHour=$(workHour)
 	totalHour=$(($totalHour+$tempWorkHour))
 	empWage=$(($WAGE_PER_HOUR*$tempWorkHour))
-	dailyWages[$(($day-1))]=$empWage
+	dailyWages[day $day]=$empWage
 	totalEmpWage=$(($totalEmpWage+$empWage))
 	day=$(($day+1))
 done
 
-echo "Employee daily wages for month are ${dailyWages[@]}"
+for (( day=1; day<=20; day++ ))
+do
+	if [ -v dailyWages["day $day"] ]
+	then
+		echo "Employee wage for day $day is ${dailyWages[day $day]}"
+	else
+		break
+	fi
+done
 echo "Employee total wage for month is $totalEmpWage"
 
