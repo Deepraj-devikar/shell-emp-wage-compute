@@ -35,8 +35,11 @@ do
 	tempWorkHour=$(workHour)
 	totalHour=$(($totalHour+$tempWorkHour))
 	empWage=$(($WAGE_PER_HOUR*$tempWorkHour))
+	dailyWages[$(($day-1))]=$empWage
 	totalEmpWage=$(($totalEmpWage+$empWage))
 	day=$(($day+1))
 done
 
-echo "Employee wage for month is $totalEmpWage"
+echo "Employee daily wages for month are ${dailyWages[@]}"
+echo "Employee total wage for month is $totalEmpWage"
+
