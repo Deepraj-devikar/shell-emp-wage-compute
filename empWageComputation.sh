@@ -13,17 +13,19 @@ FULL_DAY_HOUR=8
 PART_TIME_HOUR=4
 
 crrAttendance=$(attendance)
-if [ $crrAttendance -eq $IS_PRESENT ]
-then
-	echo "Employee is present"
-	empWage=$(($WAGE_PER_HOUR*$FULL_DAY_HOUR))
-elif [ $crrAttendance -eq $IS_PART_TIME ]
-then
-	echo "Employee is part time"
-	empWage=$(($WAGE_PER_HOUR*$PART_TIME_HOUR))
-else
-	echo "Employee is absent"
-	empWage=0
-fi
+case $(attendance) in
+	$IS_PRESENT)
+		echo "Employee is present"
+		empWage=$(($WAGE_PER_HOUR*$FULL_DAY_HOUR))
+	;;
+	$IS_PART_TIME)
+		echo "Employee is part time"
+		empWage=$(($WAGE_PER_HOUR*$PART_TIME_HOUR))
+	;;
+	*)
+		echo "Employee is absent"
+		empWage=0
+	;;
+esac
 
 echo "Employee wage is $empWage"
