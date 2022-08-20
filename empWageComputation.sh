@@ -12,7 +12,6 @@ WAGE_PER_HOUR=20
 FULL_DAY_HOUR=8
 PART_TIME_HOUR=4
 
-crrAttendance=$(attendance)
 case $(attendance) in
 	$IS_PRESENT)
 		echo "Employee is present"
