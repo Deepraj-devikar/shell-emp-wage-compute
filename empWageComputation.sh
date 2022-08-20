@@ -15,25 +15,26 @@ MONTHLY_HOUR_LIMIT=100
 totalEmpWage=0
 totalHour=0
 
+function workHour () {
+	case $(attendance) in
+		$IS_PRESENT)
+			echo $FULL_DAY_HOUR
+		;;
+		$IS_PART_TIME)
+			echo $PART_TIME_HOUR
+		;;
+		*)
+			echo 0
+		;;
+	esac
+}
+
 day=1
 while [ $day -le 20 -a $totalHour -le $MONTHLY_HOUR_LIMIT ]
 do
-	case $(attendance) in
-		$IS_PRESENT)
-			echo "Employee is present"
-			totalHour=$(($totalHour+$FULL_DAY_HOUR))
-			empWage=$(($WAGE_PER_HOUR*$FULL_DAY_HOUR))
-		;;
-		$IS_PART_TIME)
-			echo "Employee is part time"
-			totalHour=$(($totalHour+$PART_TIME_HOUR))
-			empWage=$(($WAGE_PER_HOUR*$PART_TIME_HOUR))
-		;;
-		*)
-			echo "Employee is absent"
-			empWage=0
-		;;
-	esac
+	tempWorkHour=$(workHour)
+	totalHour=$(($totalHour+$tempWorkHour))
+	empWage=$(($WAGE_PER_HOUR*$tempWorkHour))
 	totalEmpWage=$(($totalEmpWage+$empWage))
 	day=$(($day+1))
 done
